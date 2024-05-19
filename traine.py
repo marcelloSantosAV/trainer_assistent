@@ -60,9 +60,13 @@ def enviar_mensagem():
         # Resetar o input
         st.session_state[st.session_state['input_key']] = ""
 
-# Configurar o input para enviar a mensagem ao pressionar Enter
+# Configurar o input para enviar a mensagem ao clicar no botão
 input_key = st.session_state['input_key']
-st.text_input(f"Olá, {st.session_state['nome']}, digite aqui:", key=input_key, on_change=enviar_mensagem)
+mensagem = st.text_input(f"Olá, {st.session_state['nome']}, digite aqui:", key=input_key)
+enviar = st.button("Enviar")
+if enviar:
+    st.session_state[input_key] = mensagem
+    enviar_mensagem()
 
 # Inicializar a conversa
 if 'iniciado' not in st.session_state:
