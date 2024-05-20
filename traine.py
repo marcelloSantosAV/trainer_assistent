@@ -40,7 +40,7 @@ for chat in st.session_state['historico']:
 
 # Entrada do usuário
 def enviar_mensagem():
-    entrada_usuario = st.session_state['mensagem']
+    entrada_usuario = st.session_state[st.session_state['input_key']]
     if entrada_usuario:
         # Adicionar a mensagem do usuário ao histórico
         st.session_state['mensagens'].append({"role": "user", "content": entrada_usuario})
@@ -58,14 +58,11 @@ def enviar_mensagem():
             st.session_state['nome'] = entrada_usuario
         
         # Resetar o input
-        st.session_state['mensagem'] = ""
+        st.session_state[st.session_state['input_key']] = ""
 
-# Configurar o input para enviar a mensagem ao clicar no botão
-mensagem = st.text_input(f"Olá, {st.session_state['nome']}, digite aqui:")
-enviar = st.button("Enviar")
-if enviar:
-    st.session_state['mensagem'] = mensagem
-    enviar_mensagem()
+# Configurar o input para enviar a mensagem ao pressionar Enter
+input_key = st.session_state['input_key']
+st.text_input(f"Olá, {st.session_state['nome']}, digite aqui:", key=input_key, on_change=enviar_mensagem)
 
 # Inicializar a conversa
 if 'iniciado' not in st.session_state:
